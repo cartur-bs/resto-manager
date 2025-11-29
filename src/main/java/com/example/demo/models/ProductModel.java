@@ -1,6 +1,6 @@
 package com.example.demo.models;
 
-import com.example.demo.DTOs.ProductCreateDTO;
+import com.example.demo.DTOs.product.ProductCreateDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,18 +16,18 @@ public class ProductModel {
     private UUID prodId;
     @NotNull
     @Column(name = "prod_name")
-    public String prodName;
+    private String prodName;
     @Column(name = "prod_description")
-    public String prodDescription;
+    private String prodDescription;
     @NotNull
     @Column(name = "prod_category")
-    public String prodCategory;
+    private String prodCategory;
     @NotNull
     @Column(name = "prod_price")
-    public BigDecimal prodPrice;
+    private BigDecimal prodPrice;
     @NotNull
     @Column(name = "is_prod_available")
-    public Boolean isProdAvailable;
+    private Boolean isProdAvailable;
 
     public ProductModel() {
     }

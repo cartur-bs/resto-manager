@@ -1,11 +1,13 @@
 package com.example.demo.services;
 
-import com.example.demo.DTOs.ProductCreateDTO;
-import com.example.demo.DTOs.ProductResponseDTO;
+import com.example.demo.DTOs.product.ProductCreateDTO;
+import com.example.demo.DTOs.product.ProductPatchDTO;
+import com.example.demo.DTOs.product.ProductResponseDTO;
 import com.example.demo.models.ProductModel;
 import com.example.demo.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
@@ -16,12 +18,18 @@ public class ProductServices {
     private ProductRepository productRepository;
 
 
+    public ProductResponseDTO createProd(@RequestBody ProductCreateDTO productCreateDTO){
+        ProductModel productModel = new ProductModel(productCreateDTO);
+        productRepository.save(productModel);
+        return new ProductResponseDTO(productModel);
+    }
+
     public ProductResponseDTO getProdById(UUID id){
         ProductModel prodModelResponse = productRepository.findById(id).orElseThrow(RuntimeException::new);
         return new ProductResponseDTO(prodModelResponse);
 
     }
-    public ProductResponseDTO patchProd(UUID id, ProductCreateDTO dto) {
+    public ProductResponseDTO patchProd(UUID id, ProductPatchDTO dto) {
         ProductModel product = productRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
 

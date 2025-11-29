@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.DTOs.ProductCreateDTO;
-import com.example.demo.DTOs.ProductResponseDTO;
+import com.example.demo.DTOs.product.ProductCreateDTO;
+import com.example.demo.DTOs.product.ProductPatchDTO;
+import com.example.demo.DTOs.product.ProductResponseDTO;
 import com.example.demo.models.ProductModel;
 import com.example.demo.repositories.ProductRepository;
 import com.example.demo.services.ProductServices;
@@ -27,10 +28,9 @@ public class ProductController extends SQLException {
 
     @PostMapping("post/")
     public ResponseEntity<?> createNewProduct(@RequestBody @Valid ProductCreateDTO productDTO) throws SQLException {
-        ProductModel productModel = new ProductModel(productDTO);
-        var savedProd = productRepository.save(productModel);
-        URI location = URI.create("/products/" + savedProd.getProdId());
-        return ResponseEntity.created(location).body(savedProd);
+       ProductResponseDTO productResponseDTO = productServices.createProd(productDTO);
+
+        return ResponseEntity.created((URI.create("/products/" + productResponseDTO.prodId()))).body(productResponseDTO);
     }
 
     @GetMapping("get-all-prods")
@@ -44,7 +44,7 @@ public class ProductController extends SQLException {
     }
 
     @PatchMapping("edit/{id}")
-    public ResponseEntity<ProductResponseDTO> patchProduct(@PathVariable UUID id, @RequestBody ProductCreateDTO productDTO) {
+    public ResponseEntity<ProductResponseDTO> patchProduct(@PathVariable UUID id, @RequestBody ProductPatchDTO productDTO) {
         ProductResponseDTO productResponseDTOUpdated = productServices.patchProd(id, productDTO);
         return ResponseEntity.ok(productResponseDTOUpdated);
     }

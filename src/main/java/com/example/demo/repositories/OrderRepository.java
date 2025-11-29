@@ -1,2 +1,9 @@
-package com.example.demo.repositories;public interface OrderRepository {
+package com.example.demo.repositories;
+
+import com.example.demo.models.OrderModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
+
+public interface OrderRepository extends JpaRepository<OrderModel, UUID> {
 }
